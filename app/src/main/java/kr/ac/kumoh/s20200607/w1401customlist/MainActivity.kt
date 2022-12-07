@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.toolbox.NetworkImageView
 import kr.ac.kumoh.s20200607.w1401customlist.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -49,6 +50,12 @@ class MainActivity : AppCompatActivity() {
 //            val txSinger: TextView = itemView.findViewById(android.R.id.text2)
             val txTitle: TextView = itemView.findViewById(R.id.text1)
             val txSinger: TextView = itemView.findViewById(R.id.text2)
+
+            val niImage: NetworkImageView = itemView.findViewById<NetworkImageView>(R.id.image)
+
+            init {
+                niImage.setDefaultImageResId(android.R.drawable.ic_menu_report_image)
+            }
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -63,6 +70,8 @@ class MainActivity : AppCompatActivity() {
             holder.txTitle.text = model.list.value?.get(position)?.title
             holder.txSinger.text = model.list.value?.get(position)?.singer
             //string인 경우 Elvis 연산자 필요없음 integer일 때만 필요
+
+            holder.niImage.setImageUrl(model.getImageUrl(position), model.imageLoader)
 
         }
 
