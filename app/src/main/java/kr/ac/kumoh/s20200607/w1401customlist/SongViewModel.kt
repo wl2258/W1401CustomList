@@ -20,7 +20,7 @@ class SongViewModel(application: Application) : AndroidViewModel(application) {
         const val QUEUE_TAG = "SongVolleyRequest"
 
         // NOTE: 서버 주소는 본인의 서버 IP 사용할 것
-        const val SERVER_URL = "https://expresssongdb-inhbm.run.goorm.io/song"
+        const val SERVER_URL = "https://songdb-eiaon.run.goorm.io/song"
     }
 
     private val songs = ArrayList<Song>()
