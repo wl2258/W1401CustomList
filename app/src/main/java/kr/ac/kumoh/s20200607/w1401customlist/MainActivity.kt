@@ -1,10 +1,13 @@
 package kr.ac.kumoh.s20200607.w1401customlist
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -45,7 +48,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     inner class SongAdapter: RecyclerView.Adapter<SongAdapter.ViewHolder>() {
-        inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+        inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), OnClickListener {
 //            val txTitle: TextView = itemView.findViewById(android.R.id.text1)
 //            val txSinger: TextView = itemView.findViewById(android.R.id.text2)
             val txTitle: TextView = itemView.findViewById(R.id.text1)
@@ -55,6 +58,20 @@ class MainActivity : AppCompatActivity() {
 
             init {
                 niImage.setDefaultImageResId(android.R.drawable.ic_menu_report_image)
+                itemView.setOnClickListener(this)
+            }
+
+            override fun onClick(v: View?) {
+                //메모리 낭비하고 있음 (많이는 아니고)
+                //공통된 함수 레퍼런스만 갖고 있으면 공용으로 사용할 수 있음
+                //Toast.makeText(application, model.list.value?.get(adapterPosition)?.title, Toast.LENGTH_LONG).show()
+                val intent = Intent(applicationContext, SongActivity::class.java)
+                val song = model.list.value?.get(adapterPosition)
+                intent.putExtra(SongActivity.KEY_TITLE, song?.title) //오버로딩
+                intent.putExtra(SongActivity.KEY_SINGER, song?.singer)
+                intent.putExtra(SongActivity.KEY_IMAGE, model.getImageUrl(adapterPosition)) //수정!
+
+                startActivity(intent)
             }
         }
 
